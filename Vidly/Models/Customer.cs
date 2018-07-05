@@ -1,8 +1,12 @@
-﻿namespace Vidly.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Vidly.Models
 {
     public class Customer
     {
         public int Id { get; set; }
+        [Required]
+        [StringLength(255)] //mozne pouzit Fluent API
         public string Name { get; set; }
         public bool IsSuscribedToNewsletter { get; set; }
         public MembershipType MembershipType { get; set; } //navigation property --> umoznuje navigaciu z jedneho typu do ineho
