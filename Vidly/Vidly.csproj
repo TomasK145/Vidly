@@ -235,9 +235,18 @@
     <Compile Include="Migrations\201807070909355_CustomerPropertyBirthdateAdded.Designer.cs">
       <DependentUpon>201807070909355_CustomerPropertyBirthdateAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807071032132_TableMovieAndGenreAdded.cs" />
+    <Compile Include="Migrations\201807071032132_TableMovieAndGenreAdded.Designer.cs">
+      <DependentUpon>201807071032132_TableMovieAndGenreAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807071033047_SeedGenreTable.cs" />
+    <Compile Include="Migrations\201807071033047_SeedGenreTable.Designer.cs">
+      <DependentUpon>201807071033047_SeedGenreTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
+    <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MembershipType.cs" />
@@ -311,6 +320,7 @@
     <Content Include="Views\Customers\Details.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Movies\Index.cshtml" />
+    <Content Include="Views\Movies\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,6 +362,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807070909355_CustomerPropertyBirthdateAdded.resx">
       <DependentUpon>201807070909355_CustomerPropertyBirthdateAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807071032132_TableMovieAndGenreAdded.resx">
+      <DependentUpon>201807071032132_TableMovieAndGenreAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807071033047_SeedGenreTable.resx">
+      <DependentUpon>201807071033047_SeedGenreTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
