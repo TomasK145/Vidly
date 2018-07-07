@@ -22,6 +22,12 @@ namespace Vidly.Controllers
             _context.Dispose(); //context je Disposable objekt, treba overridnut metodu dispose
         }
 
+        public ActionResult New()
+        {
+            return View();
+        }
+
+
         // GET: Customers
         public ViewResult Index()
         {
