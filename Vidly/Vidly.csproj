@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201807070850419_MembershipTypeNamePropertyInitializationOfValues.Designer.cs">
       <DependentUpon>201807070850419_MembershipTypeNamePropertyInitializationOfValues.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807070909355_CustomerPropertyBirthdateAdded.cs" />
+    <Compile Include="Migrations\201807070909355_CustomerPropertyBirthdateAdded.Designer.cs">
+      <DependentUpon>201807070909355_CustomerPropertyBirthdateAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -345,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807070850419_MembershipTypeNamePropertyInitializationOfValues.resx">
       <DependentUpon>201807070850419_MembershipTypeNamePropertyInitializationOfValues.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807070909355_CustomerPropertyBirthdateAdded.resx">
+      <DependentUpon>201807070909355_CustomerPropertyBirthdateAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
