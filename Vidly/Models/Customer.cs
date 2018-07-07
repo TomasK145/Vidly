@@ -9,6 +9,7 @@ namespace Vidly.Models
         [Required]
         [StringLength(255)] //mozne pouzit Fluent API
         public string Name { get; set; }
+        [Display(Name = "Day of Birth")] //umoznuje zmenu textu Labelu zobrazeneho pri kontrole
         public DateTime? Birthdate { get; set; }
         public bool IsSuscribedToNewsletter { get; set; }
         public MembershipType MembershipType { get; set; } //navigation property --> umoznuje navigaciu z jedneho typu do ineho
