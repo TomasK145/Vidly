@@ -33,6 +33,12 @@ namespace Vidly.Controllers
             return View(viewModel);
         }
 
+        [HttpPost] //akcia moze byt volana len pri Http POST
+        public ActionResult Create(Customer customer)
+        {
+            return View();
+        }
+
 
         // GET: Customers
         public ViewResult Index()
