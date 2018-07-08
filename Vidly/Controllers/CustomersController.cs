@@ -36,7 +36,10 @@ namespace Vidly.Controllers
         [HttpPost] //akcia moze byt volana len pri Http POST
         public ActionResult Create(Customer customer)
         {
-            return View();
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
         }
 
 
