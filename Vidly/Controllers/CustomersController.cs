@@ -36,6 +36,21 @@ namespace Vidly.Controllers
         [HttpPost] //akcia moze byt volana len pri Http POST
         public ActionResult Save(Customer customer)
         {
+            /*pre pridanie validacie je treba:
+             *  1. pridat data annotation do modelu
+             *  2. overit stav modelu (ModelState.IsValid),ak nie je validny, vratit rovnaky view
+             *  3. 
+            */
+            if (!ModelState.IsValid) //overenie ci je model validny (pr. ci nechyba hodnota pre required field)
+            {
+                var viewModel = new CustomerFormViewModel
+                {
+                    Customer = customer,
+                    MembershipTypes = _context.MembershipTypes.ToList()
+                };
+                return View("CustomerForm", viewModel);
+            }
+
             if (customer.Id == 0)
             {
                 _context.Customers.Add(customer);

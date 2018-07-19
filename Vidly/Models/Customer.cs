@@ -20,5 +20,6 @@ namespace Vidly.Models
 
         [Display(Name = "Membership type")]
         public byte MembershipTypeId { get; set; } //v niektorych pripadoch ked nechceme z DB ziskat aj previazane itemy hned, staci ziskat ID, treba zachovat nazvovu konvenciu aby EF dokazalo rozoznat, ze sa jedna o FK
+        //MembershipTypeId - property je implicitne required - byte nemoze byt null
     }
 }
