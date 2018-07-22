@@ -28,18 +28,25 @@ namespace Vidly.Controllers
             var membershipTypes = _context.MembershipTypes.ToList();
             var viewModel = new CustomerFormViewModel
             {
+                Customer = new Customer(),
                 MembershipTypes = membershipTypes
             };
             return View("CustomerForm", viewModel);
         }
 
         [HttpPost] //akcia moze byt volana len pri Http POST
+        [ValidateAntiForgeryToken]
+        /*pre zamedzenie CSRF (Cross-site request forgery treba aplikovat:
+         * vo view:         @Html.AntiForgeryToken()
+         * v controlleri:   [ValidateAntiForgeryToken]
+         * je porovnavany token v hidden field na stranke s tokenom v cookies 
+         * v pripade nezhodi sa jenda o CSRF
+         */
         public ActionResult Save(Customer customer)
         {
             /*pre pridanie validacie je treba:
              *  1. pridat data annotation do modelu
              *  2. overit stav modelu (ModelState.IsValid),ak nie je validny, vratit rovnaky view
-             *  3. 
             */
             if (!ModelState.IsValid) //overenie ci je model validny (pr. ci nechyba hodnota pre required field)
             {

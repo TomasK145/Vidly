@@ -7,11 +7,13 @@ namespace Vidly.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        //Data annotation su vyuzite pre server-side aj client-side validation
+        [Required(ErrorMessage = "Please enter customer's name.")] //moznost editacie validacnej hlasky
         [StringLength(255)] //mozne pouzit Fluent API
         public string Name { get; set; }
 
         [Display(Name = "Day of Birth")] //umoznuje zmenu textu Labelu zobrazeneho pri kontrole
+        [Min18YearsIfAMember] //jquery client-side validation supportuje len standarne data annotation (nie custom)
         public DateTime? Birthdate { get; set; }
 
         public bool IsSuscribedToNewsletter { get; set; }
