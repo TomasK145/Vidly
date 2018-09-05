@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using Vidly.Dtos;
 using Vidly.Models;
 
 namespace Vidly.Controllers.Api
@@ -16,13 +18,14 @@ namespace Vidly.Controllers.Api
         }
 
         //GET /api/customers --> vstavana konvencia
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList();
+            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>); 
+            //zabezpeci ze objekty Customerov su po ziskani z DB premapovane automaperom do CustomerDto
         }
 
         //GET /api/customers/
-        public Customer GetCustomer(int id)
+        public CustomerDto GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
@@ -30,29 +33,32 @@ namespace Vidly.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound); //response ak nebol customer najdeny
             }
 
-            return customer;
+            return Mapper.Map<Customer, CustomerDto>(customer);
         }
 
         //POST /api/customers
         //podla konvencie ak vytvarame resource je tento resource vrateny klientovi
         [HttpPost] //action bude volana len pri POST requeste (alebo mozeme nazvat metodu PostCustomer (vtedy netreba uviest atribut) --> odporucane aplikovat atribut)
-        public Customer CreateCustomer(Customer customer)
+        public CustomerDto CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid) //overenie validity modelu vramci action
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
+            var customer = Mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customers.Add(customer);
             _context.SaveChanges(); //po ulozeni je nastavene ID, mozeme vratit klientovi
 
-            return customer;
+            customerDto.Id = customer.Id;
+
+            return customerDto;
         }
 
         //PUT /api/customers/
         //podla konvencie moze byt vrateny void alebo objekt
         [HttpPut]
-        public void UpdateCustomer(int id, Customer customer)
+        public void UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid) //overenie validity modelu vramci action
             {
@@ -66,11 +72,7 @@ namespace Vidly.Controllers.Api
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
-            customerInDb.Name = customer.Name;
-            customerInDb.Birthdate = customer.Birthdate;
-            customerInDb.IsSuscribedToNewsletter = customer.IsSuscribedToNewsletter;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
-
+            Mapper.Map<CustomerDto, Customer>(customerDto, customerInDb);
             _context.SaveChanges();
         }
 
