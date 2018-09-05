@@ -20,7 +20,8 @@ namespace Vidly
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.js", //nepouzivame minifikovanu verziu, pretoze vdaka tomuto Bundle ziskame minifikovanu verziu po skompiloani s Release konfiguraciou
+                      "~/Scripts/bootbox.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
