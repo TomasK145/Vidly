@@ -54,11 +54,11 @@
                     {
                         data: "name", //nazov stlpca
                         render: function (data, type, customer) {    //custom rendering funkcia --> volana pre renderovania kazdeho riadku 
-                            return "<a href='/customers/edit/" + customer.id + "'>" + data + "</a>";
+                            return "<a href='/customers/edit/" + customer.id + "'>" + data + "</a>"; //co sa vyrenderuje ako vysledok pre tento stlpec
                         }
                     },
                     {
-                        data: "name"
+                        data: "membershipType.name"
                     },
                     {
                         data: "id",
