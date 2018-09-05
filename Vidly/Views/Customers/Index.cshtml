@@ -45,7 +45,7 @@
     <script>
         $(document).ready(function () {
             //$('#customers').DataTable(); //inicializacia DataTables 
-            $('#customers').DataTable({
+            var table = $('#customers').DataTable({
                 ajax: {
                     url: "/api/customers",
                     dataSrc: ''
@@ -82,7 +82,8 @@
                             method: 'DELETE',
                             success: function () {
                                 //$(this) --> tu v callback funkcii uz "this" nereferencuje na button
-                                button.parents('tr').remove();
+                                table.row(button.parents('tr')).remove().draw();
+                                //referencia na DataTable je ulozena v premennej table, nasledne bol odstraneny tr element vramci ktoreho bolo kliknute na tlacidlo Delete, odstranil sa zaznam z internal listu a z UI
                             }
                         });
                     }
