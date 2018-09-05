@@ -49,7 +49,9 @@ else
 @section scripts
 {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            $('#customers').DataTable(); //inicializacia DataTables 
+
             //$('#customers .js-delete').on('click', function () { //neefektivne, pretoze kazdy customer ma v memory vlastny event handler
             $('#customers').on('click', '.js-delete', function () {
                 //tymto sposobom existuje len jeden click handler (lebo existuje len jeden element s ID = "customers") pre vsetkych customerov, pridany filter
