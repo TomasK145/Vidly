@@ -16,41 +16,58 @@
 }
 
 <h2>Customers</h2>
-@if (!Model.Any())
-{
-    <p>We don't have any customers yet.</p>
-}
-else
-{
-    <table id="customers" class="table table-bordered table-hover">
-        <thead>
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach(var customer in Model) //nie je potrebne, DataTables ziskaju data volanim Api --> lepsia performance
+        {
             <tr>
-                <th>Customer</th>
-                <th>Membership Type</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var customer in Model)
-            {
-                <tr>
-                    <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
-                    <td>@customer.MembershipType.Name</td>
-                    <td>
-                        <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
-                        <!-- js-delete -- js znamena ze dana trieda je pre ucely Javascriptu, nie pre stylovanie-->
-                        <!-- data-customer-id - vytvoreny custom data atribut pre moznost ziskania C# hodnoty v js -->
-                    </td>
-                </tr>               
-            }
-        </tbody>
-    </table>
-}
+                <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
+                <td>@customer.MembershipType.Name</td>
+                <td>
+                    <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
+                    <!-- js-delete -- js znamena ze dana trieda je pre ucely Javascriptu, nie pre stylovanie-->
+                    <!-- data-customer-id - vytvoreny custom data atribut pre moznost ziskania C# hodnoty v js -->
+                </td>
+            </tr>               
+        }*@
+    </tbody>
+</table>
+
 @section scripts
 {
     <script>
         $(document).ready(function () {
-            $('#customers').DataTable(); //inicializacia DataTables 
+            //$('#customers').DataTable(); //inicializacia DataTables 
+            $('#customers').DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        data: "name", //nazov stlpca
+                        render: function (data, type, customer) {    //custom rendering funkcia --> volana pre renderovania kazdeho riadku 
+                            return "<a href='/customers/edit/" + customer.id + "'>" + data + "</a>";
+                        }
+                    },
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
 
             //$('#customers .js-delete').on('click', function () { //neefektivne, pretoze kazdy customer ma v memory vlastny event handler
             $('#customers').on('click', '.js-delete', function () {

@@ -79,9 +79,8 @@ namespace Vidly.Controllers
         // GET: Customers
         public ViewResult Index()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
-
-            return View(customers);
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList(); --> nie je potrebne, DataTables ziska data vlastnym sposobom
+            return View();
         }
 
         public ActionResult Details(int id)
