@@ -19,10 +19,11 @@ namespace Vidly.Controllers.Api
         }
 
         //GET /api/customers --> vstavana konvencia
-        public IEnumerable<CustomerDto> GetCustomers()
+        public IHttpActionResult GetCustomers()
         {
-            return _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>); 
+            var customerDtos = _context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDto>);
             //zabezpeci ze objekty Customerov su po ziskani z DB premapovane automaperom do CustomerDto
+            return Ok(customerDtos);
         }
 
         //GET /api/customers/
@@ -59,7 +60,7 @@ namespace Vidly.Controllers.Api
         //PUT /api/customers/
         //podla konvencie moze byt vrateny void alebo objekt
         [HttpPut]
-        public void UpdateCustomer(int id, CustomerDto customerDto)
+        public IHttpActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid) //overenie validity modelu vramci action
             {
@@ -75,11 +76,13 @@ namespace Vidly.Controllers.Api
 
             Mapper.Map<CustomerDto, Customer>(customerDto, customerInDb);
             _context.SaveChanges();
+
+            return Ok();
         }
 
         //DELETE /api/customers/1
         [HttpDelete]
-        public void DeleteCustomer(int id)
+        public IHttpActionResult DeleteCustomer(int id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
 
@@ -90,6 +93,8 @@ namespace Vidly.Controllers.Api
 
             _context.Customers.Remove(customerInDb);
             _context.SaveChanges();
+
+            return Ok();
         }
     }
 }
