@@ -50,7 +50,10 @@ else
 {
     <script>
         $(document).ready(function() {
-            $('#customers .js-delete').on('click', function () {
+            //$('#customers .js-delete').on('click', function () { //neefektivne, pretoze kazdy customer ma v memory vlastny event handler
+            $('#customers').on('click', '.js-delete', function () {
+                //tymto sposobom existuje len jeden click handler (lebo existuje len jeden element s ID = "customers") pre vsetkych customerov, pridany filter
+                //v tomto pripade je 2 parameter filtrom ('.js-delete')
                 var button = $(this);
 
                 bootbox.confirm('Are you sure you want to delete customer?', function (result) {
