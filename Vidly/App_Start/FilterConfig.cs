@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Vidly
 {
@@ -9,6 +8,7 @@ namespace Vidly
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new AuthorizeAttribute()); //vyzaduje autentifikaciu v celej aplikacii 
+            filters.Add(new RequireHttpsAttribute()); //zabezpeci ze web app bude dostupna len s https
         }
     }
 }
