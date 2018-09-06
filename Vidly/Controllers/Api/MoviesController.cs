@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using AutoMapper;
+using System.Linq;
 using System.Web.Http;
 using Vidly.Models;
+using Vidly.Dtos;
+using System.Linq;
 
 namespace Vidly.Controllers.Api
 {
@@ -28,6 +31,15 @@ namespace Vidly.Controllers.Api
             _context.SaveChanges();
 
             return Ok();
+        }
+
+        //GET /api/movies --> vstavana konvencia
+        public IHttpActionResult GetMovies()
+        {
+            var movieDtos = _context.Movies
+                .ToList()
+                .Select(Mapper.Map<Movie, MovieDto>);
+            return Ok(movieDtos);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
+using System.Runtime.Caching;
 
 namespace Vidly.Controllers
 {
@@ -80,6 +81,13 @@ namespace Vidly.Controllers
         public ViewResult Index()
         {
             //var customers = _context.Customers.Include(c => c.MembershipType).ToList(); --> nie je potrebne, DataTables ziska data vlastnym sposobom
+            if (MemoryCache.Default["Genres"] == null)
+            {
+                MemoryCache.Default["Genres"] = _context.Genres.ToList();
+            }
+
+            var genres = MemoryCache.Default["Genres"] as IEnumerable<Genre>;
+
             return View();
         }
 

@@ -13,10 +13,11 @@ namespace Vidly.App_Start
         public MappingProfile()
         {
             Mapper.CreateMap<Customer, CustomerDto>();
-            //Mapper.CreateMap<Movie, MovieDto>();
+            Mapper.CreateMap<Movie, MovieDto>();
             Mapper.CreateMap<MembershipType, MembershipTypeDto>();
 
             Mapper.CreateMap<CustomerDto, Customer>().ForMember(c => c.Id, opt => opt.Ignore()); //ignorovanie pre Id property
+            Mapper.CreateMap<MovieDto, Movie>();
             //automapper vyuziva refection pre ziskanie properties v objektoch a mapuje ich podla nazvov
             //Automapper je convention-based mapping tool
         }

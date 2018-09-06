@@ -13,7 +13,8 @@ namespace Vidly
                         "~/Scripts/bootstrap.js", //nepouzivame minifikovanu verziu, pretoze vdaka tomuto Bundle ziskame minifikovanu verziu po skompiloani s Release konfiguraciou
                         "~/Scripts/bootbox.js",
                         "~/Scripts/datatables/jquery.datatables.js",
-                        "~/Scripts/datatables/datatables.bootstrap.js")); //integruje datatables s bootstrapom
+                        "~/Scripts/datatables/datatables.bootstrap.js",  //integruje datatables s bootstrapom
+                        "~/Scripts/typeahead.bundle.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -26,6 +27,7 @@ namespace Vidly
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-lumen.css",
                       "~/Content/datatables/css/datatables.bootstrap.css",
+                      "~/Content/typeahead.css",
                       "~/Content/site.css"));
         }
     }

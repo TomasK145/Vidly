@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "New Rental Form";
+}
+<h2>New Rental Form</h2>
+<form>
+    <div class="form-group">
+        <label>Customer</label>
+        <input id="customer" type="text" value="" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Movie</label>
+        <input id="movie" type="text" value="" class="form-control" />
+    </div>
+    <ul id="movies" class="list-group">
+
+    </ul>
+    <button class="btn btn-primary">Submit</button>
+</form>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var vm = {
+                movieIds: []
+            }; //view model vramci klienta
+
+            var customers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'), //ktora property bude tokenizovana
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                //prefetch: '../data/films/post_1960.json',  //ziska mnozinu defaultnych dat pre prvotne zobrazenie
+                remote: {
+                    url: '/api/customers?query=%QUERY', //treba upravit URL, %QUERY bude predstavovat text zadany v textboxe
+                    wildcard: '%QUERY'
+                }
+            });
+
+            var movies = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'), //ktora property bude tokenizovana
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                //prefetch: '../data/films/post_1960.json',  //ziska mnozinu defaultnych dat pre prvotne zobrazenie
+                remote: {
+                    url: '/api/movies?query=%QUERY', //treba upravit URL, %QUERY bude predstavovat text zadany v textboxe
+                    wildcard: '%QUERY'
+                }
+            });
+
+            $('#customer').typeahead({
+                minLenght: 3, //query vykonane ak uzivatel zada min  3 znaky
+                highlight: true //znaky zadane uzivatelom budu zvyraznene vo vyhladanych vysledkoch
+            }, {
+                name: 'customers',
+                display: 'name', //ktore property budu zobrazovane vo vyhladanych navrhoch
+                source: customers //vyssie definovany Bloodhound object
+                }).on('typeahead:select', function (e, customer) { //odchytenie eventu vyberu vyhladaneho vysledku - e--> event, customer --> vybrany vysledok
+                    vm.customerId = customer.id;
+                }); 
+
+            $('#movie').typeahead({
+                minLenght: 3,
+                highlight: true
+            }, {
+                    name: 'movies',
+                    display: 'name',
+                    source: movies
+                }).on('typeahead:select', function (e, movie) { 
+                    $('#movies').append('<li>' + movie.name + '</li>');
+
+                    $('#movie').typeahead('val', ''); //resetovanie textboxu movie
+                    vm.movieIds.push(movie.id);
+                }); 
+        });
+    </script>
+}
