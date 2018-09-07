@@ -6,13 +6,13 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
-            <input id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
+            <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
         </div>        
     </div>
     <div class="form-group">
         <label>Movie</label>
         <div class="tt-container">
-            <input id="movie" type="text" value="" class="form-control" />
+            <input id="movie" name="movie" data-rule-minOneMovie="true" type="text" value="" class="form-control" />
         </div>        
     </div>
     <div class="row">
@@ -79,24 +79,37 @@
                 }); 
 
             $.validator.addMethod("validCustomer", function () { //javascript custom validator
-                return vm.customerId & vm.customerId !== 0; 
+                return (vm.customerId && vm.customerId !== 0); 
             }, "Please select a valid customer.");
 
-            $('#newRental').validate({  //vykonanie validacie
+            $.validator.addMethod("minOneMovie", function () {
+                return vm.movieIds.length > 0;
+            }, "Please select at least one movie.");
+
+            var validator = $('#newRental').validate({  //vykonanie validacie
                 submitHandler: function () {
-                    e.preventDefault(); //zabezpeci ze form nebude submitnuty klasicky
+                    //e.preventDefault(); //zabezpeci ze form nebude submitnuty klasicky
 
                     $.ajax({
                         url: '/api/newRentals',
                         method: 'post',
                         data: vm
                     })
-                        .done(function () {
-                            toastr.success("Rentals successfully recorded."); //toastr notifikacia v pripade uspechu
-                        })
-                        .fail(function () {
-                            toastr.error("Something unexpected happened.");
+                    .done(function () {
+                        toastr.success("Rentals successfully recorded."); //toastr notifikacia v pripade uspechu
+
+                        //precistenie po submitnuti
+                        $('#customer').typeahead('val', '');
+                        $('#movie').typeahead('val', '');
+                        $('#movies').empty();
+                        vm = { movieIds: [] };
+                        validator.resetForm(); //resetuje formular v zmysle validacie
+                    })
+                    .fail(function () {
+                        toastr.error("Something unexpected happened.");
                         });
+
+                    return false; //zabranenie submitnutiu formularu
                 }
             }); 
         });
