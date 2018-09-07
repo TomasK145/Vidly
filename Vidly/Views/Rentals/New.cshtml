@@ -6,7 +6,7 @@
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
-            <input id="customer" type="text" value="" class="form-control" />
+            <input id="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
         </div>        
     </div>
     <div class="form-group">
@@ -26,6 +26,7 @@
 </form>
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval") 
     <script>
         $(document).ready(function () {
             var vm = {
@@ -77,21 +78,27 @@
                     vm.movieIds.push(movie.id);
                 }); 
 
-            $('#newRental').submit(function (e) {
-                e.preventDefault(); //zabezpeci ze form nebude submitnuty klasicky
+            $.validator.addMethod("validCustomer", function () { //javascript custom validator
+                return vm.customerId & vm.customerId !== 0; 
+            }, "Please select a valid customer.");
 
-                $.ajax({
-                    url: '/api/newRentals',
-                    method: 'post',
-                    data: vm
-                })
-                .done(function () {
-                    toastr.success("Rentals successfully recorded."); //toastr notifikacia v pripade uspechu
-                })
-                .fail(function () {
-                    toastr.error("Something unexpected happened.");
-                });
-            });
+            $('#newRental').validate({  //vykonanie validacie
+                submitHandler: function () {
+                    e.preventDefault(); //zabezpeci ze form nebude submitnuty klasicky
+
+                    $.ajax({
+                        url: '/api/newRentals',
+                        method: 'post',
+                        data: vm
+                    })
+                        .done(function () {
+                            toastr.success("Rentals successfully recorded."); //toastr notifikacia v pripade uspechu
+                        })
+                        .fail(function () {
+                            toastr.error("Something unexpected happened.");
+                        });
+                }
+            }); 
         });
     </script>
 }
