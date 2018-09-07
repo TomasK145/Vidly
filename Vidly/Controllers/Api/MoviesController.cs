@@ -34,10 +34,18 @@ namespace Vidly.Controllers.Api
         }
 
         //GET /api/movies --> vstavana konvencia
-        public IHttpActionResult GetMovies()
+        public IHttpActionResult GetMovies(string query = null)
         {
-            var movieDtos = _context.Movies
-                .ToList()
+            var moviesQuery = _context.Movies.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
+            }
+
+            moviesQuery = moviesQuery.Where(m => m.NumberAvailable > 0);
+
+            var movieDtos = moviesQuery.ToList()
                 .Select(Mapper.Map<Movie, MovieDto>);
             return Ok(movieDtos);
         }

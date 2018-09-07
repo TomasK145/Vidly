@@ -20,11 +20,17 @@ namespace Vidly.Controllers.Api
         }
 
         //GET /api/customers --> vstavana konvencia
-        public IHttpActionResult GetCustomers()
+        public IHttpActionResult GetCustomers(string query = null)
         {
-            var customerDtos = _context.Customers
-                .Include(c => c.MembershipType)
-                .ToList()
+            var customersQuery = _context.Customers
+                .Include(c => c.MembershipType);
+
+            if (!String.IsNullOrWhiteSpace(query))
+            {
+                customersQuery = customersQuery.Where(c => c.Name.Contains(query));
+            }
+
+            var customerDtos = customersQuery.ToList()
                 .Select(Mapper.Map<Customer, CustomerDto>);
             //zabezpeci ze objekty Customerov su po ziskani z DB premapovane automaperom do CustomerDto
             return Ok(customerDtos);
